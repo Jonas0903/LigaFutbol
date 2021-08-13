@@ -1,0 +1,121 @@
+﻿@model ML.Equipo
+
+<!DOCTYPE html>
+
+<html>
+<head>
+    <meta name="viewport" content="width=device-width" />
+    <title>@ViewBag.Titulo</title>
+</head>
+<body>
+    @Scripts.Render("~/bundles/jquery")
+    @Scripts.Render("~/bundles/jqueryval")
+
+    
+    @using (Html.BeginForm("Form", "Equipo", FormMethod.Post, new { enctype = "multipart/form-data" }))
+        {
+            @Html.AntiForgeryToken()
+
+            <div class="form-horizontal">
+                <h4>Equipo</h4>
+                <hr />
+                @Html.ValidationSummary(true, "", new { @class = "text-danger" })
+                <div class="form-group" hidden="hidden">
+                    @Html.LabelFor(model => model.IdEquipo, htmlAttributes: new { @class = "control-label col-md-2" })
+                    <div class="col-md-10">
+                        @Html.EditorFor(model => model.IdEquipo, new { htmlAttributes = new { @class = "form-control" } })
+                        @Html.ValidationMessageFor(model => model.IdEquipo, "", new { @class = "text-danger" })
+                    </div>
+                </div>
+                <div class="form-group">
+                    @Html.LabelFor(model => model.Fuerza.IdFuerza, "Fuerza", new { @class = "control-label col-md-2" })
+                    <div class="col-md-10">
+                        @Html.DropDownListFor(model => model.Fuerza.IdFuerza, new SelectList(Model.Fuerza.Fuerzas, "IdFuerza", "Nombre"), "Selecciona una Fuerza", new { @class = "form-control" })
+
+                    </div>
+                </div>
+                <div class="form-group">
+                    @Html.LabelFor(model => model.Nombre, htmlAttributes: new { @class = "control-label col-md-2" })
+                    <div class="col-md-10">
+                        @Html.EditorFor(model => model.Nombre, new { htmlAttributes = new { @class = "form-control" } })
+                        @Html.ValidationMessageFor(model => model.Nombre, "", new { @class = "text-danger" })
+                    </div>
+                </div>
+
+                <div class="form-group" hidden="hidden">
+                    @Html.LabelFor(model => model.Puntos, htmlAttributes: new { @class = "control-label col-md-2" })
+                    <div class="col-md-10">
+                        @Html.EditorFor(model => model.Puntos, new { htmlAttributes = new { @class = "form-control" } })
+                        @Html.ValidationMessageFor(model => model.Puntos, "", new { @class = "text-danger" })
+                    </div>
+                </div>
+
+                <div class="form-group" hidden="hidden">
+                    @Html.LabelFor(model => model.GolesFavor, htmlAttributes: new { @class = "control-label col-md-2" })
+                    <div class="col-md-10">
+                        @Html.EditorFor(model => model.GolesFavor, new { htmlAttributes = new { @class = "form-control" } })
+                        @Html.ValidationMessageFor(model => model.GolesFavor, "", new { @class = "text-danger" })
+                    </div>
+                </div>
+
+                <div class="form-group" hidden="hidden">
+                    @Html.LabelFor(model => model.GolesContra, htmlAttributes: new { @class = "control-label col-md-2" })
+                    <div class="col-md-10">
+                        @Html.EditorFor(model => model.GolesContra, new { htmlAttributes = new { @class = "form-control" } })
+                        @Html.ValidationMessageFor(model => model.GolesContra, "", new { @class = "text-danger" })
+                    </div>
+                </div>
+
+                <div class="form-group" hidden="hidden">
+                    @Html.LabelFor(model => model.DiferenciaGoles, htmlAttributes: new { @class = "control-label col-md-2" })
+                    <div class="col-md-10">
+                        @Html.EditorFor(model => model.DiferenciaGoles, new { htmlAttributes = new { @class = "form-control" } })
+                        @Html.ValidationMessageFor(model => model.DiferenciaGoles, "", new { @class = "text-danger" })
+                    </div>
+                </div>
+
+                <div class="form-group" hidden="hidden">
+                    @Html.LabelFor(model => model.Jugados, htmlAttributes: new { @class = "control-label col-md-2" })
+                    <div class="col-md-10">
+                        @Html.EditorFor(model => model.Jugados, new { htmlAttributes = new { @class = "form-control" } })
+                        @Html.ValidationMessageFor(model => model.Jugados, "", new { @class = "text-danger" })
+                    </div>
+                </div>
+
+                <div class="form-group" hidden="hidden">
+                    @Html.LabelFor(model => model.Ganados, htmlAttributes: new { @class = "control-label col-md-2" })
+                    <div class="col-md-10">
+                        @Html.EditorFor(model => model.Ganados, new { htmlAttributes = new { @class = "form-control" } })
+                        @Html.ValidationMessageFor(model => model.Ganados, "", new { @class = "text-danger" })
+                    </div>
+                </div>
+
+                <div class="form-group" hidden="hidden">
+                    @Html.LabelFor(model => model.Empatados, htmlAttributes: new { @class = "control-label col-md-2" })
+                    <div class="col-md-10">
+                        @Html.EditorFor(model => model.Empatados, new { htmlAttributes = new { @class = "form-control" } })
+                        @Html.ValidationMessageFor(model => model.Empatados, "", new { @class = "text-danger" })
+                    </div>
+                </div>
+
+                <div class="form-group" hidden="hidden">
+                    @Html.LabelFor(model => model.Perdidos, htmlAttributes: new { @class = "control-label col-md-2" })
+                    <div class="col-md-10">
+                        @Html.EditorFor(model => model.Perdidos, new { htmlAttributes = new { @class = "form-control" } })
+                        @Html.ValidationMessageFor(model => model.Perdidos, "", new { @class = "text-danger" })
+                    </div>
+                </div>
+
+                <div class="form-group">
+                    <div class="col-md-offset-2 col-md-10">
+                        <input type="submit" value="@ViewBag.Boton" class="btn btn-success" />
+                    </div>
+                </div>
+            </div>
+        }
+
+    <div>
+        @Html.ActionLink("Regresar", "GetByFuerza", new { IdFuerza = Model.Fuerza.IdFuerza }, new { Class="btn btn-danger" })
+    </div>
+</body>
+</html>

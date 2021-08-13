@@ -1,0 +1,89 @@
+﻿@model ML.Equipo
+
+@{
+    ViewBag.Title = Model.Fuerza.Nombre;
+}
+
+<h2>@ViewBag.Title</h2>
+
+<p>
+    <a href="@Url.Action("Form", "Equipo", new { IdEquipo=Model.IdEquipo })" class="btn btn-success">
+        +
+    </a>
+<table class="table" align="center">
+    <tr>
+        
+        <th>
+            @Html.DisplayNameFor(model => model.Nombre)
+        </th>
+        <th>
+            @Html.DisplayNameFor(model => model.Puntos)
+        </th>
+        <th>
+            @Html.DisplayNameFor(model => model.GolesFavor)
+        </th>
+        <th>
+            @Html.DisplayNameFor(model => model.GolesContra)
+        </th>
+        <th>
+            @Html.DisplayNameFor(model => model.DiferenciaGoles)
+        </th>
+        <th>
+            @Html.DisplayNameFor(model => model.Jugados)
+        </th>
+        <th>
+            @Html.DisplayNameFor(model => model.Ganados)
+        </th>
+        <th>
+            @Html.DisplayNameFor(model => model.Empatados)
+        </th>
+        <th>
+            @Html.DisplayNameFor(model => model.Perdidos)
+        </th>
+        <th></th>
+    </tr>
+
+@foreach (ML.Equipo item in Model.Equipos) {
+    <tr>
+        
+        <td>
+            @Html.DisplayFor(modelItem => item.Nombre)
+        </td>
+        <td>
+            @Html.DisplayFor(modelItem => item.Puntos)
+        </td>
+        <td>
+            @Html.DisplayFor(modelItem => item.GolesFavor)
+        </td>
+        <td>
+            @Html.DisplayFor(modelItem => item.GolesContra)
+        </td>
+        <td>
+            @Html.DisplayFor(modelItem => item.DiferenciaGoles)
+        </td>
+        <td>
+            @Html.DisplayFor(modelItem => item.Jugados)
+        </td>
+        <td>
+            @Html.DisplayFor(modelItem => item.Ganados)
+        </td>
+        <td>
+            @Html.DisplayFor(modelItem => item.Empatados)
+        </td>
+        <td>
+            @Html.DisplayFor(modelItem => item.Perdidos)
+        </td>
+        <td>
+            @Html.ActionLink("Editar", "Form", new { IdEquipo = item.IdEquipo }, new { Class = "btn btn-info" }) |
+            @Html.ActionLink("Ver Jugadores", "GetByEquipo", "Jugador", new { IdEquipo = item.IdEquipo }, new { Class = "btn btn-default" }) |
+            @*@Html.ActionLink("Ver Partidos", "GetByEquipo", "Partido", new { IdEquipo = item.IdEquipo }, new { Class = "btn-info" }) *@
+            
+        </td>
+    </tr>
+}
+
+</table>
+<div horizontalalignment="left">
+    @Html.ActionLink("Regresar", "GetAll", "Fuerza", new { }, new { Class = "btn btn-danger" })
+
+</div>

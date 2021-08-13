@@ -1,0 +1,43 @@
+﻿@model ML.Fuerza
+
+@{
+    ViewBag.Title = "Lista de Fuerzas";
+}
+
+<h2>@ViewBag.Title</h2>
+
+@*<p>
+    @Html.ActionLink("Create New", "Create")
+</p>*@
+<table class="table" align="center">
+    <tr>
+        <th>
+            @Html.DisplayNameFor(model => model.IdFuerza)
+        </th>
+        <th>
+            @Html.DisplayNameFor(model => model.Nombre)
+        </th>
+        <th></th>
+    </tr>
+
+@foreach (var item in Model.Fuerzas) {
+    <tr>
+        <td>
+            @Html.DisplayFor(modelItem => ((ML.Fuerza)item).IdFuerza)
+        </td>
+        <td>
+            @Html.DisplayFor(modelItem => ((ML.Fuerza)item).Nombre)
+        </td>
+        <td>            
+            <div>               
+                @Html.ActionLink("Ver Equipos","GetByFuerza", "Equipo", new { IdFuerza = ((ML.Fuerza)item).IdFuerza }, new { Class = "btn btn-info" })
+            </div>
+        </td>
+    </tr>
+}
+
+</table>
+<div horizontalalignment="left">
+    
+    @Html.ActionLink("Regresar", "Index", "Home", new { }, new { Class="btn btn-danger"  })
+</div>

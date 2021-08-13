@@ -1,0 +1,673 @@
+﻿<?xml version="1.0" encoding="utf-8"?>
+<edmx:Edmx Version="3.0" xmlns:edmx="http://schemas.microsoft.com/ado/2009/11/edmx">
+  <!-- EF Runtime content -->
+  <edmx:Runtime>
+    <!-- SSDL content -->
+    <edmx:StorageModels>
+    <Schema Namespace="LigaFutbolModel.Store" Provider="System.Data.SqlClient" ProviderManifestToken="2012" Alias="Self" xmlns:store="http://schemas.microsoft.com/ado/2007/12/edm/EntityStoreSchemaGenerator" xmlns:customannotation="http://schemas.microsoft.com/ado/2013/11/edm/customannotation" xmlns="http://schemas.microsoft.com/ado/2009/11/edm/ssdl">
+        <EntityType Name="Equipo">
+          <Key>
+            <PropertyRef Name="IdEquipo" />
+          </Key>
+          <Property Name="IdEquipo" Type="int" StoreGeneratedPattern="Identity" Nullable="false" />
+          <Property Name="Nombre" Type="varchar" MaxLength="50" />
+          <Property Name="Puntos" Type="int" />
+          <Property Name="GolesFavor" Type="int" />
+          <Property Name="GolesContra" Type="int" />
+          <Property Name="IdFuerza" Type="int" />
+          <Property Name="DiferenciaGoles" Type="int" />
+          <Property Name="Jugados" Type="int" />
+          <Property Name="Ganados" Type="int" />
+          <Property Name="Empatados" Type="int" />
+          <Property Name="Perdidos" Type="int" />
+        </EntityType>
+        <EntityType Name="EquipoPartido">
+          <Key>
+            <PropertyRef Name="IdEquipoPartido" />
+          </Key>
+          <Property Name="IdEquipoPartido" Type="int" StoreGeneratedPattern="Identity" Nullable="false" />
+          <Property Name="IdPartido" Type="int" />
+          <Property Name="IdEquipo" Type="int" />
+          <Property Name="Goles" Type="int" />
+        </EntityType>
+        <EntityType Name="Fuerza">
+          <Key>
+            <PropertyRef Name="IdFuerza" />
+          </Key>
+          <Property Name="IdFuerza" Type="int" StoreGeneratedPattern="Identity" Nullable="false" />
+          <Property Name="Nombre" Type="varchar" MaxLength="50" />
+        </EntityType>
+        <EntityType Name="Jugador">
+          <Key>
+            <PropertyRef Name="IdJugador" />
+          </Key>
+          <Property Name="IdJugador" Type="int" StoreGeneratedPattern="Identity" Nullable="false" />
+          <Property Name="IdEquipo" Type="int" />
+          <Property Name="Nombre" Type="varchar" MaxLength="100" />
+          <Property Name="Apellido" Type="varchar" MaxLength="100" />
+          <Property Name="Goles" Type="int" />
+        </EntityType>
+        <EntityType Name="JugadorPartido">
+          <Key>
+            <PropertyRef Name="IdJugadorPartido" />
+          </Key>
+          <Property Name="IdJugadorPartido" Type="int" StoreGeneratedPattern="Identity" Nullable="false" />
+          <Property Name="IdPartido" Type="int" />
+          <Property Name="IdJugador" Type="int" />
+          <Property Name="Goles" Type="int" />
+        </EntityType>
+        <EntityType Name="Partido">
+          <Key>
+            <PropertyRef Name="IdPartido" />
+          </Key>
+          <Property Name="IdPartido" Type="int" StoreGeneratedPattern="Identity" Nullable="false" />
+          <Property Name="Fecha" Type="datetime" />
+        </EntityType>
+        <Association Name="FK__Equipo__IdFuerza__1273C1CD">
+          <End Role="Fuerza" Type="Self.Fuerza" Multiplicity="0..1" />
+          <End Role="Equipo" Type="Self.Equipo" Multiplicity="*" />
+          <ReferentialConstraint>
+            <Principal Role="Fuerza">
+              <PropertyRef Name="IdFuerza" />
+            </Principal>
+            <Dependent Role="Equipo">
+              <PropertyRef Name="IdFuerza" />
+            </Dependent>
+          </ReferentialConstraint>
+        </Association>
+        <Association Name="FK__EquipoPar__IdEqu__2B3F6F97">
+          <End Role="Equipo" Type="Self.Equipo" Multiplicity="0..1" />
+          <End Role="EquipoPartido" Type="Self.EquipoPartido" Multiplicity="*" />
+          <ReferentialConstraint>
+            <Principal Role="Equipo">
+              <PropertyRef Name="IdEquipo" />
+            </Principal>
+            <Dependent Role="EquipoPartido">
+              <PropertyRef Name="IdEquipo" />
+            </Dependent>
+          </ReferentialConstraint>
+        </Association>
+        <Association Name="FK__EquipoPar__IdPar__2A4B4B5E">
+          <End Role="Partido" Type="Self.Partido" Multiplicity="0..1" />
+          <End Role="EquipoPartido" Type="Self.EquipoPartido" Multiplicity="*" />
+          <ReferentialConstraint>
+            <Principal Role="Partido">
+              <PropertyRef Name="IdPartido" />
+            </Principal>
+            <Dependent Role="EquipoPartido">
+              <PropertyRef Name="IdPartido" />
+            </Dependent>
+          </ReferentialConstraint>
+        </Association>
+        <Association Name="FK__Jugador__IdEquip__15502E78">
+          <End Role="Equipo" Type="Self.Equipo" Multiplicity="0..1" />
+          <End Role="Jugador" Type="Self.Jugador" Multiplicity="*" />
+          <ReferentialConstraint>
+            <Principal Role="Equipo">
+              <PropertyRef Name="IdEquipo" />
+            </Principal>
+            <Dependent Role="Jugador">
+              <PropertyRef Name="IdEquipo" />
+            </Dependent>
+          </ReferentialConstraint>
+        </Association>
+        <Association Name="FK__JugadorPa__IdJug__2F10007B">
+          <End Role="Jugador" Type="Self.Jugador" Multiplicity="0..1" />
+          <End Role="JugadorPartido" Type="Self.JugadorPartido" Multiplicity="*" />
+          <ReferentialConstraint>
+            <Principal Role="Jugador">
+              <PropertyRef Name="IdJugador" />
+            </Principal>
+            <Dependent Role="JugadorPartido">
+              <PropertyRef Name="IdJugador" />
+            </Dependent>
+          </ReferentialConstraint>
+        </Association>
+        <Association Name="FK__JugadorPa__IdPar__2E1BDC42">
+          <End Role="Partido" Type="Self.Partido" Multiplicity="0..1" />
+          <End Role="JugadorPartido" Type="Self.JugadorPartido" Multiplicity="*" />
+          <ReferentialConstraint>
+            <Principal Role="Partido">
+              <PropertyRef Name="IdPartido" />
+            </Principal>
+            <Dependent Role="JugadorPartido">
+              <PropertyRef Name="IdPartido" />
+            </Dependent>
+          </ReferentialConstraint>
+        </Association>
+        <Function Name="EquipoAdd" Aggregate="false" BuiltIn="false" NiladicFunction="false" IsComposable="false" ParameterTypeSemantics="AllowImplicitConversion" Schema="dbo">
+          <Parameter Name="Nombre" Type="varchar" Mode="In" />
+          <Parameter Name="IdFuerza" Type="int" Mode="In" />
+        </Function>
+        <Function Name="EquipoGetAll" Aggregate="false" BuiltIn="false" NiladicFunction="false" IsComposable="false" ParameterTypeSemantics="AllowImplicitConversion" Schema="dbo" />
+        <Function Name="EquipoGetByFuerza" Aggregate="false" BuiltIn="false" NiladicFunction="false" IsComposable="false" ParameterTypeSemantics="AllowImplicitConversion" Schema="dbo">
+          <Parameter Name="IdFuerza" Type="int" Mode="In" />
+        </Function>
+        <Function Name="EquipoGetById" Aggregate="false" BuiltIn="false" NiladicFunction="false" IsComposable="false" ParameterTypeSemantics="AllowImplicitConversion" Schema="dbo">
+          <Parameter Name="IdEquipo" Type="int" Mode="In" />
+        </Function>
+        <Function Name="EquipoUpdate" Aggregate="false" BuiltIn="false" NiladicFunction="false" IsComposable="false" ParameterTypeSemantics="AllowImplicitConversion" Schema="dbo">
+          <Parameter Name="IdEquipo" Type="int" Mode="In" />
+          <Parameter Name="Nombre" Type="varchar" Mode="In" />
+          <Parameter Name="Puntos" Type="int" Mode="In" />
+          <Parameter Name="GolesFavor" Type="int" Mode="In" />
+          <Parameter Name="GolesContra" Type="int" Mode="In" />
+          <Parameter Name="IdFuerza" Type="int" Mode="In" />
+          <Parameter Name="DiferenciaGoles" Type="int" Mode="In" />
+          <Parameter Name="Opcion" Type="int" Mode="In" />
+        </Function>
+        <Function Name="FuerzaGetAll" Aggregate="false" BuiltIn="false" NiladicFunction="false" IsComposable="false" ParameterTypeSemantics="AllowImplicitConversion" Schema="dbo" />
+        <Function Name="FuerzaGetById" Aggregate="false" BuiltIn="false" NiladicFunction="false" IsComposable="false" ParameterTypeSemantics="AllowImplicitConversion" Schema="dbo">
+          <Parameter Name="IdFuerza" Type="int" Mode="In" />
+        </Function>
+        <Function Name="JugadorAdd" Aggregate="false" BuiltIn="false" NiladicFunction="false" IsComposable="false" ParameterTypeSemantics="AllowImplicitConversion" Schema="dbo">
+          <Parameter Name="IdEquipo" Type="int" Mode="In" />
+          <Parameter Name="Nombre" Type="varchar" Mode="In" />
+          <Parameter Name="Apellido" Type="varchar" Mode="In" />
+        </Function>
+        <Function Name="JugadorGetByEquipo" Aggregate="false" BuiltIn="false" NiladicFunction="false" IsComposable="false" ParameterTypeSemantics="AllowImplicitConversion" Schema="dbo">
+          <Parameter Name="IdEquipo" Type="int" Mode="In" />
+        </Function>
+        <Function Name="JugadorGetById" Aggregate="false" BuiltIn="false" NiladicFunction="false" IsComposable="false" ParameterTypeSemantics="AllowImplicitConversion" Schema="dbo">
+          <Parameter Name="IdJugador" Type="int" Mode="In" />
+        </Function>
+        <Function Name="JugadorUpdate" Aggregate="false" BuiltIn="false" NiladicFunction="false" IsComposable="false" ParameterTypeSemantics="AllowImplicitConversion" Schema="dbo">
+          <Parameter Name="IdJugador" Type="int" Mode="In" />
+          <Parameter Name="Nombre" Type="varchar" Mode="In" />
+          <Parameter Name="Apellido" Type="varchar" Mode="In" />
+          <Parameter Name="Goles" Type="int" Mode="In" />
+          <Parameter Name="IdEquipo" Type="int" Mode="In" />
+          <Parameter Name="Opcion" Type="int" Mode="In" />
+        </Function>
+        <EntityContainer Name="LigaFutbolModelStoreContainer">
+          <EntitySet Name="Equipo" EntityType="Self.Equipo" Schema="dbo" store:Type="Tables" />
+          <EntitySet Name="EquipoPartido" EntityType="Self.EquipoPartido" Schema="dbo" store:Type="Tables" />
+          <EntitySet Name="Fuerza" EntityType="Self.Fuerza" Schema="dbo" store:Type="Tables" />
+          <EntitySet Name="Jugador" EntityType="Self.Jugador" Schema="dbo" store:Type="Tables" />
+          <EntitySet Name="JugadorPartido" EntityType="Self.JugadorPartido" Schema="dbo" store:Type="Tables" />
+          <EntitySet Name="Partido" EntityType="Self.Partido" Schema="dbo" store:Type="Tables" />
+          <AssociationSet Name="FK__Equipo__IdFuerza__1273C1CD" Association="Self.FK__Equipo__IdFuerza__1273C1CD">
+            <End Role="Fuerza" EntitySet="Fuerza" />
+            <End Role="Equipo" EntitySet="Equipo" />
+          </AssociationSet>
+          <AssociationSet Name="FK__EquipoPar__IdEqu__2B3F6F97" Association="Self.FK__EquipoPar__IdEqu__2B3F6F97">
+            <End Role="Equipo" EntitySet="Equipo" />
+            <End Role="EquipoPartido" EntitySet="EquipoPartido" />
+          </AssociationSet>
+          <AssociationSet Name="FK__EquipoPar__IdPar__2A4B4B5E" Association="Self.FK__EquipoPar__IdPar__2A4B4B5E">
+            <End Role="Partido" EntitySet="Partido" />
+            <End Role="EquipoPartido" EntitySet="EquipoPartido" />
+          </AssociationSet>
+          <AssociationSet Name="FK__Jugador__IdEquip__15502E78" Association="Self.FK__Jugador__IdEquip__15502E78">
+            <End Role="Equipo" EntitySet="Equipo" />
+            <End Role="Jugador" EntitySet="Jugador" />
+          </AssociationSet>
+          <AssociationSet Name="FK__JugadorPa__IdJug__2F10007B" Association="Self.FK__JugadorPa__IdJug__2F10007B">
+            <End Role="Jugador" EntitySet="Jugador" />
+            <End Role="JugadorPartido" EntitySet="JugadorPartido" />
+          </AssociationSet>
+          <AssociationSet Name="FK__JugadorPa__IdPar__2E1BDC42" Association="Self.FK__JugadorPa__IdPar__2E1BDC42">
+            <End Role="Partido" EntitySet="Partido" />
+            <End Role="JugadorPartido" EntitySet="JugadorPartido" />
+          </AssociationSet>
+        </EntityContainer>
+      </Schema></edmx:StorageModels>
+    <!-- CSDL content -->
+    <edmx:ConceptualModels>
+      <Schema Namespace="LigaFutbolModel" Alias="Self" annotation:UseStrongSpatialTypes="false" xmlns:annotation="http://schemas.microsoft.com/ado/2009/02/edm/annotation" xmlns:customannotation="http://schemas.microsoft.com/ado/2013/11/edm/customannotation" xmlns="http://schemas.microsoft.com/ado/2009/11/edm">
+        <EntityType Name="Equipo">
+          <Key>
+            <PropertyRef Name="IdEquipo" />
+          </Key>
+          <Property Name="IdEquipo" Type="Int32" Nullable="false" annotation:StoreGeneratedPattern="Identity" />
+          <Property Name="Nombre" Type="String" MaxLength="50" FixedLength="false" Unicode="false" />
+          <Property Name="Puntos" Type="Int32" />
+          <Property Name="GolesFavor" Type="Int32" />
+          <Property Name="GolesContra" Type="Int32" />
+          <Property Name="IdFuerza" Type="Int32" />
+          <Property Name="DiferenciaGoles" Type="Int32" />
+          <Property Name="Jugados" Type="Int32" />
+          <Property Name="Ganados" Type="Int32" />
+          <Property Name="Empatados" Type="Int32" />
+          <Property Name="Perdidos" Type="Int32" />
+          <NavigationProperty Name="Fuerza" Relationship="Self.FK__Equipo__IdFuerza__1273C1CD" FromRole="Equipo" ToRole="Fuerza" />
+          <NavigationProperty Name="EquipoPartidoes" Relationship="Self.FK__EquipoPar__IdEqu__2B3F6F97" FromRole="Equipo" ToRole="EquipoPartido" />
+          <NavigationProperty Name="Jugadors" Relationship="Self.FK__Jugador__IdEquip__15502E78" FromRole="Equipo" ToRole="Jugador" />
+        </EntityType>
+        <EntityType Name="EquipoPartido">
+          <Key>
+            <PropertyRef Name="IdEquipoPartido" />
+          </Key>
+          <Property Name="IdEquipoPartido" Type="Int32" Nullable="false" annotation:StoreGeneratedPattern="Identity" />
+          <Property Name="IdPartido" Type="Int32" />
+          <Property Name="IdEquipo" Type="Int32" />
+          <Property Name="Goles" Type="Int32" />
+          <NavigationProperty Name="Equipo" Relationship="Self.FK__EquipoPar__IdEqu__2B3F6F97" FromRole="EquipoPartido" ToRole="Equipo" />
+          <NavigationProperty Name="Partido" Relationship="Self.FK__EquipoPar__IdPar__2A4B4B5E" FromRole="EquipoPartido" ToRole="Partido" />
+        </EntityType>
+        <EntityType Name="Fuerza">
+          <Key>
+            <PropertyRef Name="IdFuerza" />
+          </Key>
+          <Property Name="IdFuerza" Type="Int32" Nullable="false" annotation:StoreGeneratedPattern="Identity" />
+          <Property Name="Nombre" Type="String" MaxLength="50" FixedLength="false" Unicode="false" />
+          <NavigationProperty Name="Equipoes" Relationship="Self.FK__Equipo__IdFuerza__1273C1CD" FromRole="Fuerza" ToRole="Equipo" />
+        </EntityType>
+        <EntityType Name="Jugador">
+          <Key>
+            <PropertyRef Name="IdJugador" />
+          </Key>
+          <Property Name="IdJugador" Type="Int32" Nullable="false" annotation:StoreGeneratedPattern="Identity" />
+          <Property Name="IdEquipo" Type="Int32" />
+          <Property Name="Nombre" Type="String" MaxLength="100" FixedLength="false" Unicode="false" />
+          <Property Name="Apellido" Type="String" MaxLength="100" FixedLength="false" Unicode="false" />
+          <Property Name="Goles" Type="Int32" />
+          <NavigationProperty Name="Equipo" Relationship="Self.FK__Jugador__IdEquip__15502E78" FromRole="Jugador" ToRole="Equipo" />
+          <NavigationProperty Name="JugadorPartidoes" Relationship="Self.FK__JugadorPa__IdJug__2F10007B" FromRole="Jugador" ToRole="JugadorPartido" />
+        </EntityType>
+        <EntityType Name="JugadorPartido">
+          <Key>
+            <PropertyRef Name="IdJugadorPartido" />
+          </Key>
+          <Property Name="IdJugadorPartido" Type="Int32" Nullable="false" annotation:StoreGeneratedPattern="Identity" />
+          <Property Name="IdPartido" Type="Int32" />
+          <Property Name="IdJugador" Type="Int32" />
+          <Property Name="Goles" Type="Int32" />
+          <NavigationProperty Name="Jugador" Relationship="Self.FK__JugadorPa__IdJug__2F10007B" FromRole="JugadorPartido" ToRole="Jugador" />
+          <NavigationProperty Name="Partido" Relationship="Self.FK__JugadorPa__IdPar__2E1BDC42" FromRole="JugadorPartido" ToRole="Partido" />
+        </EntityType>
+        <EntityType Name="Partido">
+          <Key>
+            <PropertyRef Name="IdPartido" />
+          </Key>
+          <Property Name="IdPartido" Type="Int32" Nullable="false" annotation:StoreGeneratedPattern="Identity" />
+          <Property Name="Fecha" Type="DateTime" Precision="3" />
+          <NavigationProperty Name="EquipoPartidoes" Relationship="Self.FK__EquipoPar__IdPar__2A4B4B5E" FromRole="Partido" ToRole="EquipoPartido" />
+          <NavigationProperty Name="JugadorPartidoes" Relationship="Self.FK__JugadorPa__IdPar__2E1BDC42" FromRole="Partido" ToRole="JugadorPartido" />
+        </EntityType>
+        <Association Name="FK__Equipo__IdFuerza__1273C1CD">
+          <End Role="Fuerza" Type="Self.Fuerza" Multiplicity="0..1" />
+          <End Role="Equipo" Type="Self.Equipo" Multiplicity="*" />
+          <ReferentialConstraint>
+            <Principal Role="Fuerza">
+              <PropertyRef Name="IdFuerza" />
+            </Principal>
+            <Dependent Role="Equipo">
+              <PropertyRef Name="IdFuerza" />
+            </Dependent>
+          </ReferentialConstraint>
+        </Association>
+        <Association Name="FK__EquipoPar__IdEqu__2B3F6F97">
+          <End Role="Equipo" Type="Self.Equipo" Multiplicity="0..1" />
+          <End Role="EquipoPartido" Type="Self.EquipoPartido" Multiplicity="*" />
+          <ReferentialConstraint>
+            <Principal Role="Equipo">
+              <PropertyRef Name="IdEquipo" />
+            </Principal>
+            <Dependent Role="EquipoPartido">
+              <PropertyRef Name="IdEquipo" />
+            </Dependent>
+          </ReferentialConstraint>
+        </Association>
+        <Association Name="FK__Jugador__IdEquip__15502E78">
+          <End Role="Equipo" Type="Self.Equipo" Multiplicity="0..1" />
+          <End Role="Jugador" Type="Self.Jugador" Multiplicity="*" />
+          <ReferentialConstraint>
+            <Principal Role="Equipo">
+              <PropertyRef Name="IdEquipo" />
+            </Principal>
+            <Dependent Role="Jugador">
+              <PropertyRef Name="IdEquipo" />
+            </Dependent>
+          </ReferentialConstraint>
+        </Association>
+        <Association Name="FK__EquipoPar__IdPar__2A4B4B5E">
+          <End Role="Partido" Type="Self.Partido" Multiplicity="0..1" />
+          <End Role="EquipoPartido" Type="Self.EquipoPartido" Multiplicity="*" />
+          <ReferentialConstraint>
+            <Principal Role="Partido">
+              <PropertyRef Name="IdPartido" />
+            </Principal>
+            <Dependent Role="EquipoPartido">
+              <PropertyRef Name="IdPartido" />
+            </Dependent>
+          </ReferentialConstraint>
+        </Association>
+        <Association Name="FK__JugadorPa__IdJug__2F10007B">
+          <End Role="Jugador" Type="Self.Jugador" Multiplicity="0..1" />
+          <End Role="JugadorPartido" Type="Self.JugadorPartido" Multiplicity="*" />
+          <ReferentialConstraint>
+            <Principal Role="Jugador">
+              <PropertyRef Name="IdJugador" />
+            </Principal>
+            <Dependent Role="JugadorPartido">
+              <PropertyRef Name="IdJugador" />
+            </Dependent>
+          </ReferentialConstraint>
+        </Association>
+        <Association Name="FK__JugadorPa__IdPar__2E1BDC42">
+          <End Role="Partido" Type="Self.Partido" Multiplicity="0..1" />
+          <End Role="JugadorPartido" Type="Self.JugadorPartido" Multiplicity="*" />
+          <ReferentialConstraint>
+            <Principal Role="Partido">
+              <PropertyRef Name="IdPartido" />
+            </Principal>
+            <Dependent Role="JugadorPartido">
+              <PropertyRef Name="IdPartido" />
+            </Dependent>
+          </ReferentialConstraint>
+        </Association>
+        <EntityContainer Name="LigaFutbolEntities" annotation:LazyLoadingEnabled="true">
+          <EntitySet Name="Equipoes" EntityType="Self.Equipo" />
+          <EntitySet Name="EquipoPartidoes" EntityType="Self.EquipoPartido" />
+          <EntitySet Name="Fuerzas" EntityType="Self.Fuerza" />
+          <EntitySet Name="Jugadors" EntityType="Self.Jugador" />
+          <EntitySet Name="JugadorPartidoes" EntityType="Self.JugadorPartido" />
+          <EntitySet Name="Partidoes" EntityType="Self.Partido" />
+          <AssociationSet Name="FK__Equipo__IdFuerza__1273C1CD" Association="Self.FK__Equipo__IdFuerza__1273C1CD">
+            <End Role="Fuerza" EntitySet="Fuerzas" />
+            <End Role="Equipo" EntitySet="Equipoes" />
+          </AssociationSet>
+          <AssociationSet Name="FK__EquipoPar__IdEqu__2B3F6F97" Association="Self.FK__EquipoPar__IdEqu__2B3F6F97">
+            <End Role="Equipo" EntitySet="Equipoes" />
+            <End Role="EquipoPartido" EntitySet="EquipoPartidoes" />
+          </AssociationSet>
+          <AssociationSet Name="FK__Jugador__IdEquip__15502E78" Association="Self.FK__Jugador__IdEquip__15502E78">
+            <End Role="Equipo" EntitySet="Equipoes" />
+            <End Role="Jugador" EntitySet="Jugadors" />
+          </AssociationSet>
+          <AssociationSet Name="FK__EquipoPar__IdPar__2A4B4B5E" Association="Self.FK__EquipoPar__IdPar__2A4B4B5E">
+            <End Role="Partido" EntitySet="Partidoes" />
+            <End Role="EquipoPartido" EntitySet="EquipoPartidoes" />
+          </AssociationSet>
+          <AssociationSet Name="FK__JugadorPa__IdJug__2F10007B" Association="Self.FK__JugadorPa__IdJug__2F10007B">
+            <End Role="Jugador" EntitySet="Jugadors" />
+            <End Role="JugadorPartido" EntitySet="JugadorPartidoes" />
+          </AssociationSet>
+          <AssociationSet Name="FK__JugadorPa__IdPar__2E1BDC42" Association="Self.FK__JugadorPa__IdPar__2E1BDC42">
+            <End Role="Partido" EntitySet="Partidoes" />
+            <End Role="JugadorPartido" EntitySet="JugadorPartidoes" />
+          </AssociationSet>
+          <FunctionImport Name="EquipoAdd">
+            <Parameter Name="Nombre" Mode="In" Type="String" />
+            <Parameter Name="IdFuerza" Mode="In" Type="Int32" />
+          </FunctionImport>
+          <FunctionImport Name="EquipoGetByFuerza" ReturnType="Collection(LigaFutbolModel.EquipoGetByFuerza_Result)">
+          <Parameter Name="IdFuerza" Mode="In" Type="Int32" />
+          </FunctionImport>
+          <FunctionImport Name="FuerzaGetAll" ReturnType="Collection(LigaFutbolModel.FuerzaGetAll_Result)" />
+          <FunctionImport Name="JugadorAdd">
+            <Parameter Name="IdEquipo" Mode="In" Type="Int32" />
+            <Parameter Name="Nombre" Mode="In" Type="String" />
+            <Parameter Name="Apellido" Mode="In" Type="String" />
+          </FunctionImport>
+          <FunctionImport Name="JugadorUpdate">
+            <Parameter Name="IdJugador" Mode="In" Type="Int32" />
+            <Parameter Name="Nombre" Mode="In" Type="String" />
+            <Parameter Name="Apellido" Mode="In" Type="String" />
+            <Parameter Name="Goles" Mode="In" Type="Int32" />
+            <Parameter Name="IdEquipo" Mode="In" Type="Int32" />
+            <Parameter Name="Opcion" Mode="In" Type="Int32" />
+          </FunctionImport>
+          <FunctionImport Name="EquipoGetById" ReturnType="Collection(LigaFutbolModel.EquipoGetById_Result)">
+          <Parameter Name="IdEquipo" Mode="In" Type="Int32" />
+          </FunctionImport>
+          <FunctionImport Name="JugadorGetByEquipo" ReturnType="Collection(LigaFutbolModel.JugadorGetByEquipo_Result)">
+          <Parameter Name="IdEquipo" Mode="In" Type="Int32" />
+          </FunctionImport>
+          <FunctionImport Name="JugadorGetById" ReturnType="Collection(LigaFutbolModel.JugadorGetById_Result)">
+          <Parameter Name="IdJugador" Mode="In" Type="Int32" />
+          </FunctionImport>
+          <FunctionImport Name="FuerzaGetById" ReturnType="Collection(LigaFutbolModel.FuerzaGetById_Result)">
+          <Parameter Name="IdFuerza" Mode="In" Type="Int32" />
+          </FunctionImport>
+          <FunctionImport Name="EquipoGetAll" ReturnType="Collection(LigaFutbolModel.EquipoGetAll_Result)" />
+          <FunctionImport Name="EquipoUpdate">
+            <Parameter Name="IdEquipo" Mode="In" Type="Int32" />
+            <Parameter Name="Nombre" Mode="In" Type="String" />
+            <Parameter Name="Puntos" Mode="In" Type="Int32" />
+            <Parameter Name="GolesFavor" Mode="In" Type="Int32" />
+            <Parameter Name="GolesContra" Mode="In" Type="Int32" />
+            <Parameter Name="IdFuerza" Mode="In" Type="Int32" />
+            <Parameter Name="DiferenciaGoles" Mode="In" Type="Int32" />
+            <Parameter Name="Opcion" Mode="In" Type="Int32" />
+          </FunctionImport>
+        </EntityContainer>
+        <ComplexType Name="EquipoGetByFuerza_Result">
+          <Property Type="Int32" Name="IdEquipo" Nullable="false" />
+          <Property Type="String" Name="NombreEquipo" Nullable="true" MaxLength="50" />
+          <Property Type="Int32" Name="JJ" Nullable="true" />
+          <Property Type="Int32" Name="JG" Nullable="true" />
+          <Property Type="Int32" Name="JE" Nullable="true" />
+          <Property Type="Int32" Name="JP" Nullable="true" />
+          <Property Type="Int32" Name="GF" Nullable="true" />
+          <Property Type="Int32" Name="GC" Nullable="true" />
+          <Property Type="Int32" Name="DG" Nullable="true" />
+          <Property Type="Int32" Name="Puntos" Nullable="true" />
+          <Property Type="String" Name="NombreFuerza" Nullable="true" MaxLength="50" />
+          <Property Type="Int32" Name="IdFuerza" Nullable="false" />
+        </ComplexType>
+        <ComplexType Name="FuerzaGetAll_Result">
+          <Property Type="Int32" Name="IdFuerza" Nullable="false" />
+          <Property Type="String" Name="Nombre" Nullable="true" MaxLength="50" />
+        </ComplexType>
+        <ComplexType Name="EquipoGetById_Result">
+          <Property Type="Int32" Name="IdEquipo" Nullable="false" />
+          <Property Type="String" Name="Nombre" Nullable="true" MaxLength="50" />
+          <Property Type="Int32" Name="Jugados" Nullable="true" />
+          <Property Type="Int32" Name="Ganados" Nullable="true" />
+          <Property Type="Int32" Name="Empatados" Nullable="true" />
+          <Property Type="Int32" Name="Perdidos" Nullable="true" />
+          <Property Type="Int32" Name="Puntos" Nullable="true" />
+          <Property Type="Int32" Name="GF" Nullable="true" />
+          <Property Type="Int32" Name="GC" Nullable="true" />
+          <Property Type="Int32" Name="DG" Nullable="true" />
+          <Property Type="Int32" Name="IdFuerza" Nullable="true" />
+          <Property Type="String" Name="NombreFuerza" Nullable="true" MaxLength="50" />
+        </ComplexType>
+        <ComplexType Name="JugadorGetByEquipo_Result">
+          <Property Type="Int32" Name="IdJugador" Nullable="false" />
+          <Property Type="String" Name="NombreEquipo" Nullable="true" MaxLength="50" />
+          <Property Type="String" Name="NombreJugador" Nullable="true" MaxLength="100" />
+          <Property Type="String" Name="Apellido" Nullable="true" MaxLength="100" />
+          <Property Type="Int32" Name="Goles" Nullable="true" />
+          <Property Type="Int32" Name="IdEquipo" Nullable="false" />
+        </ComplexType>
+        <ComplexType Name="JugadorGetById_Result">
+          <Property Type="Int32" Name="IdJugador" Nullable="false" />
+          <Property Type="String" Name="NombreJugador" Nullable="true" MaxLength="100" />
+          <Property Type="String" Name="Apellido" Nullable="true" MaxLength="100" />
+          <Property Type="Int32" Name="IdEquipo" Nullable="false" />
+          <Property Type="String" Name="NombreEquipo" Nullable="true" MaxLength="50" />
+          <Property Type="Int32" Name="Goles" Nullable="true" />
+        </ComplexType>
+        <ComplexType Name="FuerzaGetById_Result">
+          <Property Type="Int32" Name="IdFuerza" Nullable="false" />
+          <Property Type="String" Name="Nombre" Nullable="true" MaxLength="50" />
+        </ComplexType>
+        <ComplexType Name="EquipoGetAll_Result">
+          <Property Type="Int32" Name="IdEquipo" Nullable="false" />
+          <Property Type="String" Name="Nombre" Nullable="true" MaxLength="50" />
+        </ComplexType>
+      </Schema>
+    </edmx:ConceptualModels>
+    <!-- C-S mapping content -->
+    <edmx:Mappings>
+      <Mapping Space="C-S" xmlns="http://schemas.microsoft.com/ado/2009/11/mapping/cs">
+        <EntityContainerMapping StorageEntityContainer="LigaFutbolModelStoreContainer" CdmEntityContainer="LigaFutbolEntities">
+          <EntitySetMapping Name="Equipoes">
+            <EntityTypeMapping TypeName="LigaFutbolModel.Equipo">
+              <MappingFragment StoreEntitySet="Equipo">
+                <ScalarProperty Name="IdEquipo" ColumnName="IdEquipo" />
+                <ScalarProperty Name="Nombre" ColumnName="Nombre" />
+                <ScalarProperty Name="Puntos" ColumnName="Puntos" />
+                <ScalarProperty Name="GolesFavor" ColumnName="GolesFavor" />
+                <ScalarProperty Name="GolesContra" ColumnName="GolesContra" />
+                <ScalarProperty Name="IdFuerza" ColumnName="IdFuerza" />
+                <ScalarProperty Name="DiferenciaGoles" ColumnName="DiferenciaGoles" />
+                <ScalarProperty Name="Jugados" ColumnName="Jugados" />
+                <ScalarProperty Name="Ganados" ColumnName="Ganados" />
+                <ScalarProperty Name="Empatados" ColumnName="Empatados" />
+                <ScalarProperty Name="Perdidos" ColumnName="Perdidos" />
+              </MappingFragment>
+            </EntityTypeMapping>
+          </EntitySetMapping>
+          <EntitySetMapping Name="EquipoPartidoes">
+            <EntityTypeMapping TypeName="LigaFutbolModel.EquipoPartido">
+              <MappingFragment StoreEntitySet="EquipoPartido">
+                <ScalarProperty Name="IdEquipoPartido" ColumnName="IdEquipoPartido" />
+                <ScalarProperty Name="IdPartido" ColumnName="IdPartido" />
+                <ScalarProperty Name="IdEquipo" ColumnName="IdEquipo" />
+                <ScalarProperty Name="Goles" ColumnName="Goles" />
+              </MappingFragment>
+            </EntityTypeMapping>
+          </EntitySetMapping>
+          <EntitySetMapping Name="Fuerzas">
+            <EntityTypeMapping TypeName="LigaFutbolModel.Fuerza">
+              <MappingFragment StoreEntitySet="Fuerza">
+                <ScalarProperty Name="IdFuerza" ColumnName="IdFuerza" />
+                <ScalarProperty Name="Nombre" ColumnName="Nombre" />
+              </MappingFragment>
+            </EntityTypeMapping>
+          </EntitySetMapping>
+          <EntitySetMapping Name="Jugadors">
+            <EntityTypeMapping TypeName="LigaFutbolModel.Jugador">
+              <MappingFragment StoreEntitySet="Jugador">
+                <ScalarProperty Name="IdJugador" ColumnName="IdJugador" />
+                <ScalarProperty Name="IdEquipo" ColumnName="IdEquipo" />
+                <ScalarProperty Name="Nombre" ColumnName="Nombre" />
+                <ScalarProperty Name="Apellido" ColumnName="Apellido" />
+                <ScalarProperty Name="Goles" ColumnName="Goles" />
+              </MappingFragment>
+            </EntityTypeMapping>
+          </EntitySetMapping>
+          <EntitySetMapping Name="JugadorPartidoes">
+            <EntityTypeMapping TypeName="LigaFutbolModel.JugadorPartido">
+              <MappingFragment StoreEntitySet="JugadorPartido">
+                <ScalarProperty Name="IdJugadorPartido" ColumnName="IdJugadorPartido" />
+                <ScalarProperty Name="IdPartido" ColumnName="IdPartido" />
+                <ScalarProperty Name="IdJugador" ColumnName="IdJugador" />
+                <ScalarProperty Name="Goles" ColumnName="Goles" />
+              </MappingFragment>
+            </EntityTypeMapping>
+          </EntitySetMapping>
+          <EntitySetMapping Name="Partidoes">
+            <EntityTypeMapping TypeName="LigaFutbolModel.Partido">
+              <MappingFragment StoreEntitySet="Partido">
+                <ScalarProperty Name="IdPartido" ColumnName="IdPartido" />
+                <ScalarProperty Name="Fecha" ColumnName="Fecha" />
+              </MappingFragment>
+            </EntityTypeMapping>
+          </EntitySetMapping>
+          <FunctionImportMapping FunctionImportName="EquipoAdd" FunctionName="LigaFutbolModel.Store.EquipoAdd" />
+          <FunctionImportMapping FunctionImportName="EquipoGetByFuerza" FunctionName="LigaFutbolModel.Store.EquipoGetByFuerza">
+            <ResultMapping>
+              <ComplexTypeMapping TypeName="LigaFutbolModel.EquipoGetByFuerza_Result">
+                <ScalarProperty Name="IdEquipo" ColumnName="IdEquipo" />
+                <ScalarProperty Name="NombreEquipo" ColumnName="NombreEquipo" />
+                <ScalarProperty Name="JJ" ColumnName="JJ" />
+                <ScalarProperty Name="JG" ColumnName="JG" />
+                <ScalarProperty Name="JE" ColumnName="JE" />
+                <ScalarProperty Name="JP" ColumnName="JP" />
+                <ScalarProperty Name="GF" ColumnName="GF" />
+                <ScalarProperty Name="GC" ColumnName="GC" />
+                <ScalarProperty Name="DG" ColumnName="DG" />
+                <ScalarProperty Name="Puntos" ColumnName="Puntos" />
+                <ScalarProperty Name="NombreFuerza" ColumnName="NombreFuerza" />
+                <ScalarProperty Name="IdFuerza" ColumnName="IdFuerza" />
+              </ComplexTypeMapping>
+            </ResultMapping>
+          </FunctionImportMapping>
+          <FunctionImportMapping FunctionImportName="FuerzaGetAll" FunctionName="LigaFutbolModel.Store.FuerzaGetAll">
+            <ResultMapping>
+              <ComplexTypeMapping TypeName="LigaFutbolModel.FuerzaGetAll_Result">
+                <ScalarProperty Name="IdFuerza" ColumnName="IdFuerza" />
+                <ScalarProperty Name="Nombre" ColumnName="Nombre" />
+              </ComplexTypeMapping>
+            </ResultMapping>
+          </FunctionImportMapping>
+          <FunctionImportMapping FunctionImportName="JugadorAdd" FunctionName="LigaFutbolModel.Store.JugadorAdd" />
+          <FunctionImportMapping FunctionImportName="JugadorUpdate" FunctionName="LigaFutbolModel.Store.JugadorUpdate" />
+          <FunctionImportMapping FunctionImportName="EquipoGetById" FunctionName="LigaFutbolModel.Store.EquipoGetById">
+            <ResultMapping>
+              <ComplexTypeMapping TypeName="LigaFutbolModel.EquipoGetById_Result">
+                <ScalarProperty Name="IdEquipo" ColumnName="IdEquipo" />
+                <ScalarProperty Name="Nombre" ColumnName="Nombre" />
+                <ScalarProperty Name="Jugados" ColumnName="Jugados" />
+                <ScalarProperty Name="Ganados" ColumnName="Ganados" />
+                <ScalarProperty Name="Empatados" ColumnName="Empatados" />
+                <ScalarProperty Name="Perdidos" ColumnName="Perdidos" />
+                <ScalarProperty Name="Puntos" ColumnName="Puntos" />
+                <ScalarProperty Name="GF" ColumnName="GF" />
+                <ScalarProperty Name="GC" ColumnName="GC" />
+                <ScalarProperty Name="DG" ColumnName="DG" />
+                <ScalarProperty Name="IdFuerza" ColumnName="IdFuerza" />
+                <ScalarProperty Name="NombreFuerza" ColumnName="NombreFuerza" />
+              </ComplexTypeMapping>
+            </ResultMapping>
+          </FunctionImportMapping>
+          <FunctionImportMapping FunctionImportName="JugadorGetByEquipo" FunctionName="LigaFutbolModel.Store.JugadorGetByEquipo">
+            <ResultMapping>
+              <ComplexTypeMapping TypeName="LigaFutbolModel.JugadorGetByEquipo_Result">
+                <ScalarProperty Name="IdJugador" ColumnName="IdJugador" />
+                <ScalarProperty Name="NombreEquipo" ColumnName="NombreEquipo" />
+                <ScalarProperty Name="NombreJugador" ColumnName="NombreJugador" />
+                <ScalarProperty Name="Apellido" ColumnName="Apellido" />
+                <ScalarProperty Name="Goles" ColumnName="Goles" />
+                <ScalarProperty Name="IdEquipo" ColumnName="IdEquipo" />
+              </ComplexTypeMapping>
+            </ResultMapping>
+          </FunctionImportMapping>
+          <FunctionImportMapping FunctionImportName="JugadorGetById" FunctionName="LigaFutbolModel.Store.JugadorGetById">
+            <ResultMapping>
+              <ComplexTypeMapping TypeName="LigaFutbolModel.JugadorGetById_Result">
+                <ScalarProperty Name="IdJugador" ColumnName="IdJugador" />
+                <ScalarProperty Name="NombreJugador" ColumnName="NombreJugador" />
+                <ScalarProperty Name="Apellido" ColumnName="Apellido" />
+                <ScalarProperty Name="IdEquipo" ColumnName="IdEquipo" />
+                <ScalarProperty Name="NombreEquipo" ColumnName="NombreEquipo" />
+                <ScalarProperty Name="Goles" ColumnName="Goles" />
+              </ComplexTypeMapping>
+            </ResultMapping>
+          </FunctionImportMapping>
+          <FunctionImportMapping FunctionImportName="FuerzaGetById" FunctionName="LigaFutbolModel.Store.FuerzaGetById">
+            <ResultMapping>
+              <ComplexTypeMapping TypeName="LigaFutbolModel.FuerzaGetById_Result">
+                <ScalarProperty Name="IdFuerza" ColumnName="IdFuerza" />
+                <ScalarProperty Name="Nombre" ColumnName="Nombre" />
+              </ComplexTypeMapping>
+            </ResultMapping>
+          </FunctionImportMapping>
+          <FunctionImportMapping FunctionImportName="EquipoGetAll" FunctionName="LigaFutbolModel.Store.EquipoGetAll">
+            <ResultMapping>
+              <ComplexTypeMapping TypeName="LigaFutbolModel.EquipoGetAll_Result">
+                <ScalarProperty Name="IdEquipo" ColumnName="IdEquipo" />
+                <ScalarProperty Name="Nombre" ColumnName="Nombre" />
+              </ComplexTypeMapping>
+            </ResultMapping>
+          </FunctionImportMapping>
+          <FunctionImportMapping FunctionImportName="EquipoUpdate" FunctionName="LigaFutbolModel.Store.EquipoUpdate" />
+        </EntityContainerMapping>
+      </Mapping>
+    </edmx:Mappings>
+  </edmx:Runtime>
+  <!-- EF Designer content (DO NOT EDIT MANUALLY BELOW HERE) -->
+  <Designer xmlns="http://schemas.microsoft.com/ado/2009/11/edmx">
+    <Connection>
+      <DesignerInfoPropertySet>
+        <DesignerProperty Name="MetadataArtifactProcessing" Value="EmbedInOutputAssembly" />
+      </DesignerInfoPropertySet>
+    </Connection>
+    <Options>
+      <DesignerInfoPropertySet>
+        <DesignerProperty Name="ValidateOnBuild" Value="true" />
+        <DesignerProperty Name="EnablePluralization" Value="true" />
+        <DesignerProperty Name="IncludeForeignKeysInModel" Value="true" />
+        <DesignerProperty Name="UseLegacyProvider" Value="false" />
+        <DesignerProperty Name="CodeGenerationStrategy" Value="Ninguno" />
+      </DesignerInfoPropertySet>
+    </Options>
+    <!-- Diagram content (shape and connector positions) -->
+    <Diagrams></Diagrams>
+  </Designer>
+</edmx:Edmx>

@@ -1,0 +1,88 @@
+﻿@model ML.Jugador
+
+@{
+    Layout = null;
+}
+
+<!DOCTYPE html>
+
+<html>
+<head>
+    <meta name="viewport" content="width=device-width" />
+    <title>Form</title>
+</head>
+<body>
+    @Scripts.Render("~/bundles/jquery")
+    @Scripts.Render("~/bundles/jqueryval")
+
+
+    @using (Html.BeginForm())
+    {
+        @Html.AntiForgeryToken()
+
+        <div class="form-horizontal">
+            <h4>Jugador</h4>
+            <hr />
+            @Html.ValidationSummary(true, "", new { @class = "text-danger" })
+            <div class="form-group" hidden="hidden">
+                @Html.LabelFor(model => model.IdJugador, htmlAttributes: new { @class = "control-label col-md-2" })
+                <div class="col-md-10">
+                    @Html.EditorFor(model => model.IdJugador, new { htmlAttributes = new { @class = "form-control" } })
+                    @Html.ValidationMessageFor(model => model.IdJugador, "", new { @class = "text-danger" })
+                </div>
+            </div>
+
+            <div class="form-group">
+                @Html.LabelFor(model => model.Nombre, htmlAttributes: new { @class = "control-label col-md-2" })
+                <div class="col-md-10">
+                    @Html.EditorFor(model => model.Nombre, new { htmlAttributes = new { @class = "form-control", placeholder = "Nombres" } })
+                    @Html.ValidationMessageFor(model => model.Nombre, "", new { @class = "text-danger" })
+                </div>
+            </div>
+
+            <div class="form-group">
+                @Html.LabelFor(model => model.Apellido, htmlAttributes: new { @class = "control-label col-md-2" })
+                <div class="col-md-10">
+                    @Html.EditorFor(model => model.Apellido, new { htmlAttributes = new { @class = "form-control", placeholder = "Apellidos" } })
+                    @Html.ValidationMessageFor(model => model.Apellido, "", new { @class = "text-danger" })
+                </div>
+            </div>
+            <div class="form-group">
+                <div class="col-md-offset-2 col-md-10">
+                    <input type="submit" value="@ViewBag.Boton" class="btn btn-success" />
+                </div>
+            </div>
+        </div>
+    }
+
+    <div>
+        @Html.ActionLink("Regresar", "GetByEquipo", new { IdEquipo = Model.Equipo.IdEquipo }, new { Class = "btn btn-danger" })
+    </div>
+</body>
+----------------------------------------Script Ajax drop down list cascade----------------------------------------------
+@Scripts.Render("~/bundles/jquery")
+<script type="text/javascript">
+    $(document).ready   (function () {
+        $("#Fuerza").change(function () {//Categoria
+            $("#Equipo").empty();//SubCategoria
+            $.ajax({
+                type: 'POST',
+                url: '@Url.Action("GetEquipo")',
+                dataType: 'json',
+                data: { IdFuerza: $("#Fuerza").val() },
+                success: function (equipo) {
+                    $.each(equipo, function (i, equipo) {
+                        $("#Equipo").append('<option value="'
+                                                   + equipo.Value + '">'
+                                                   + equipo.Text + '</option>');
+                    });
+                },
+                error: function (ex) {
+                    alert('Failed.' + ex);
+                }
+            });
+        });
+    })
+
+</script>
+</html>
